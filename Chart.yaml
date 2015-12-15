@@ -1,0 +1,8 @@
+name: ejabberd-cluster
+home: https://github.com/vyshane/ejabberd-cluster-helm
+version: 0.1.0
+description: ejabberd is a massively scalable XMPP server
+maintainers:
+- Vy-Shane Xie <shane@node.mu>
+details: |-
+  This chart creates a cluster of ejabberd servers.
