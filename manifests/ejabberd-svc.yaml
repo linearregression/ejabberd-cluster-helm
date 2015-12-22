@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ejabberd
+  labels:
+    provider: ejabberd
+    heritage: helm
+spec:
+  ports:
+  - name: client-to-server
+    port: 5222
+    targetPort: 5222
+    nodePort: 30222
+  - name: httpadmin-websocket-httpbind
+    port: 5280
+    targetPort: 5280
+    nodePort: 30280
+  selector:
+    name: ejabberd
+  type: NodePort

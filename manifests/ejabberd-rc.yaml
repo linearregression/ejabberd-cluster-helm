@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: ejabberd
+  labels:
+    name: ejabberd
+    provider: ejabberd
+    heritage: helm
+spec:
+  replicas: 1
+  selector:
+    provider: ejabberd
+  template:
+    metadata:
+      name: ejabberd
+      labels:
+        name: ejabberd
+        provider: ejabberd
+    spec:
+      containers:
+      - name: ejabberd
+        image: rroemhild/ejabberd
+        ports:
+        - containerPort: 5222
+        - containerPort: 5269
+        - containerPort: 5280
+        env:
+          - name: XMPP_DOMAIN
+            value: example.com
+          # SSL
+          #- name: EJABBERD_SSLCERT_HOST
+          #  value:
+          #- name: EJABBERD_SSLCERT_EXAMPLE_COM
+          #  value:
+          - name: EJABBERD_STARTTLS
+            value: "true"
+          - name: EJABBERD_S2S_SSL
+            value: "true"
+          - name: EJABBERD_WEB_ADMIN_SSL
+            value: "true"
+          # Users and authentication
+          - name: AUTH_METHOD
+            value: internal
+          - name: EJABBERD_ADMINS
+            value: admin@example.com
+          - name: EJABBERD_USERS
+            value: admin@example.com:adminpass user@example.com:userpass
+          # Erlang
+          - name: ERLANG_NODE
+            value: ejabberd
+          - name: ERLANG_COOKIE
+            value: ejabberd
+          #- ERLANG_OPTIONS=
+          # Modules
+          - name: EJABBERD_SKIP_MODULES_UPDATE
+            value: "false"
+          - name: EJABBERD_MOD_MUC_ADMIN
+            value: "false"
+          - name: EJABBERD_MOD_ADMIN_EXTRA
+            value: "true"
+          - name: EJABBERD_REGISTER_TRUSTED_NETWORK_ONLY
+            value: "true"
+          # Logging
+          - name: EJABBERD_LOGLEVEL
+            value: "4"
